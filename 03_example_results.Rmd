@@ -1,0 +1,105 @@
+
+```{r results} 
+
+# This file only contains the results
+
+```
+
+
+```{r results-calculate-t-test}
+
+# Aggregate data
+dataAgg <- aggregate(dataSCR$raw.ampl, by = list(dataSCR$id, dataSCR$sex),
+                     FUN = mean, na.action = na.omit)
+names(dataAgg) <- c("id","sex","raw.ampl")
+
+# Test for homogeneity of variance
+car::leveneTest(dataAgg$raw.ampl, dataAgg$sex)
+
+# t-tests and Cohen's d
+ttest_sex_diff <- t.test(dataAgg$raw.ampl ~ dataAgg$sex, var.equal = TRUE)
+cohensD_ttest_sex_diff <- cohens_d(dataAgg$raw.ampl, dataAgg$sex)
+ttest_sex_diff
+
+```
+
+
+```{r results-figure1}
+
+
+# Define a theme for pretty plots
+my_theme = theme(
+  text = element_text(size = 10),
+  axis.title.y = element_text(size = 16, face = "bold"),
+  axis.text.y = element_text(size = 12, face = "bold"),
+  axis.text.x = element_text(size = 14, face = "bold"),
+  axis.ticks.x = element_blank(),
+  legend.position = "none",
+  panel.border = element_blank(),
+  panel.grid.minor = element_blank(),
+  panel.grid.major = element_blank(),
+  panel.background = element_blank(),
+  axis.line.x = element_line(colour = 'black', size=0.5, linetype='solid'),
+  axis.line.y = element_line(colour = 'black', size=0.5, linetype='solid'))
+
+
+
+############################### PLOT
+
+barplot_sex_diff <- ggplot(data = dataAgg, aes(y = raw.ampl, x = sex, fill = sex)) +
+  
+  geom_bar(stat = "summary", fun.data = mean_se, width = 0.5, alpha = .6) +
+  
+  geom_point(aes(col = sex), position = position_jitter(width = .1)) +
+  
+  geom_errorbar(stat = "summary", fun.data = mean_se,
+                width = .05, size = 1, color = "black") +
+  
+  scale_x_discrete("", labels = c("females","males")) +
+  scale_colour_manual(values=c("#307351","#412234")) +
+  scale_fill_manual(values=c("#307351","#412234")) +
+  
+  ylab(expression(paste("SCR [", mu, "S]"))) +
+  my_theme
+
+barplot_sex_diff
+
+```
+
+
+```{r results-table1}
+
+# Fit the model
+fit <- lm(raw.ampl ~ sumStaiT, data = dataSCR)
+
+# Plot the results table
+apa_fit <- apa_print(fit)
+
+```
+
+# Results
+
+In the result section, we can report the data.
+For example, we can report the mean differences in SCRs between females and males, `r tapply(dataSCR$raw.ampl, dataSCR$sex, print_mean_sd, na.rm = TRUE)`.
+
+We can also report the results of a t-test where we tested for differences in SCRs between *females* and *males*, `r print_ttest(ttest_sex_diff)`, $d =$ `r round(cohensD_ttest_sex_diff$Cohens_d, 2)`.
+
+Furthermore, we can include a cross-reference to the Figure \@ref(fig:results-include-figure1).
+
+
+```{r results-include-figure1, fig.width=5, fig.height=5, fig.cap="Barplot comparing females and males in SCRs.", include=TRUE}
+
+barplot_sex_diff
+
+```
+
+In addition, we can also add tables. Again, we can include a cross-reference to Table \@ref(tab:results-include-table1).
+
+```{r results-include-table1, include=TRUE}
+
+apa_table(apa_fit$table, caption = "A full regression table displaying the association between SCRs and the STAI-T.")
+
+```
+
+
+

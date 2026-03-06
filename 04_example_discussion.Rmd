@@ -1,0 +1,21 @@
+
+```{r discussion}
+
+# This file only contains the discussion
+
+```
+
+# Discussion
+
+Here, we can discuss the results.
+
+
+
+# References
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id="refs" custom-style="Bibliography"></div>
+\endgroup

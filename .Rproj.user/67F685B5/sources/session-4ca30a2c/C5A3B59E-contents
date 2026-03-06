@@ -1,0 +1,40 @@
+
+```{r methods}
+
+# This file only contains the methods
+
+```
+
+```{r methods-r-bib}
+
+# Create a bib-file for R citations
+r_refs(file = "r-references.bib")
+r_citations <- cite_r(file = "r-references.bib")
+
+```
+
+```{r methods-descriptive-information}
+
+# Calculate the age and sd of the participants
+
+mean_age <- mean(dataSCR$age_T0, na.rm = TRUE)
+sd_age <- sd(dataSCR$age_T0, na.rm = TRUE)
+
+```
+
+
+# Methods
+
+## Participants
+
+We examined `r length(unique(dataSCR$id))` participants (age~*M*~ = `r mean_age`, age~*SD*~ = `r sd_age`). 
+
+
+...
+
+
+## Data analysis
+
+For data analysis and visualizations as well as for the creation of the manuscript, we used `r r_citations`.
+
+

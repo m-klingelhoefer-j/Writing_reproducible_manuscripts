@@ -1,0 +1,94 @@
+---
+title             : "Long Title Example Manuscript"
+shorttitle        : "Short Title Example"
+
+author: 
+  - name          : "Maren Klingelhöfer-Jens"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "Postal address"
+    email         : "my@email.com"
+    role:         # Contributorship roles (e.g., CRediT, https://casrai.org/credit/)
+      - Writing - Original Draft Preparation
+      
+  - name          : "Tina B. Lonsdorf"
+    affiliation   : "1,2"
+    role:
+      - Writing - Review & Editing
+
+affiliation:
+  - id            : "1"
+    institution   : "Institute for Systems Neuroscience, University Medical Center Hamburg-Eppendorf, Hamburg, Germany"
+  - id            : "2"
+    institution   : "Department of Psychology, Biological Psychology and Cognitive Neuroscience, University of Bielefeld, Bielefeld, Germany"
+
+authornote: |
+  Enter author note here.
+
+abstract: |
+  Enter abstract here.
+  
+  
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+bibliography      : ["Reprod_Writing.bib","r-references.bib"]
+appendix          :
+  - "05_example_supplement.Rmd"
+
+floatsintext      : yes
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : no
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_word
+---
+
+```{r setup, include = FALSE}
+
+# This whole document is only here to initialize everything. It contains the settings
+# for the manuscript, but nothing else.
+
+# Delete everything
+rm(list = ls())
+
+# Set chunk options (i.e., how chunks will be handled globally, can however be overwritten locally in chunks)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed, 
+                      echo=FALSE,     # chunks will not be printed in rendered document
+                      include=FALSE,  # results will not be printed in the rendered document
+                      message=FALSE,  # warnings and messages will no be printed in the rendered document
+                      warning=FALSE)
+
+# Seed for random number generation
+set.seed(42)
+
+
+```
+
+```{r load-packages-data}
+
+# Load packages
+library(papaja)       # for generating the APA manuscript
+library(tidyverse)    # for data analysis (and beautiful plots -> ggplot2)
+library(prmisc)       # for printing stats
+library(effectsize)   # for calculating effect sizes
+library(car)          # for calculating Levene's Test
+
+# Load the data
+load("data/dataSCR.RData")
+
+```
+
+
+```{r child = c("01_example_introduction.Rmd","02_example_methods.Rmd","03_example_results.Rmd","04_example_discussion.Rmd"), echo = FALSE} 
+
+
+```
+
+
