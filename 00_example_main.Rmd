@@ -83,6 +83,8 @@ library(car)          # for calculating Levene's Test
 # Load the data
 load("data/dataSCR.RData")
 
+This is a test
+
 ```
 
 
